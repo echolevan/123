@@ -1,0 +1,244 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>订单列表</title>
+    <link rel="shortcut icon" href="favicon.ico">
+    <link href="__CSS__/bootstrap.min.css?v=3.3.6" rel="stylesheet">
+    <link href="__CSS__/font-awesome.min.css?v=4.4.0" rel="stylesheet">
+    <link href="__CSS__/plugins/bootstrap-table/bootstrap-table.min.css" rel="stylesheet">
+    <link href="__CSS__/animate.min.css" rel="stylesheet">
+    <link href="__CSS__/style.min.css?v=4.1.0" rel="stylesheet">
+    <link href="__CSS__/plugins/sweetalert/sweetalert.css" rel="stylesheet">
+</head>
+<body class="gray-bg">
+<div class="wrapper wrapper-content animated fadeInRight">
+    <!-- Panel Other -->
+    <div class="ibox float-e-margins">
+        <div class="ibox-title">
+            <h5>订单列表</h5>
+        </div>
+        <div class="ibox-content">
+            <div class="form-group clearfix col-sm-1">
+                {if authCheck('mall/orderexport')}
+                <a>
+                    <button class="btn btn-outline btn-primary" type="button" id="export">订单导出</button>
+                </a>
+                {/if}
+            </div>
+            <!--搜索框开始-->
+            <form id='commentForm' role="form" method="post" class="form-inline pull-right">
+                <div class="content clearfix m-b">
+                    <div class="form-group">
+                        <label>订单编号：</label>
+                        <input type="text" class="form-control" id="order_no" name="order_no">
+                    </div>
+                    <div class="form-group">
+                        <label>商品名称：</label>
+                        <input type="text" class="form-control" id="goods_name" name="goods_name">
+                    </div>
+                    <div class="form-group">
+                        <label>会员账号：</label>
+                        <input type="text" class="form-control" id="member_id" name="member_id">
+                    </div>
+                    <div class="form-group">
+                        <label>订单状态：</label>
+                        <select name="order_status" id="order_status" class="form-control">
+                            <option value="">全部</option>
+                            <option value="1">待付款</option>
+                            <option value="2">已支付</option>
+                            <option value="3">已取消</option>
+                            <option value="5">已完成</option>
+                        </select>
+                    </div>
+                    <div class="form-group">
+                        <label>支付状态：</label>
+                        <select name="pay_status" id="pay_status" class="form-control">
+                            <option value="">全部</option>
+                            <option value="-1">未支付</option>
+                            <option value="1">已支付</option>
+                        </select>
+                    </div>
+                    <div class="form-group">
+                        <label>发货状态：</label>
+                        <select name="distribution_status" id="distribution_status" class="form-control">
+                            <option value="">全部</option>
+                            <option value="-1">未发货</option>
+                            <option value="1">已发货</option>
+                        </select>
+                    </div>
+                    <div class="form-group">
+                        <label>下单时间:</label>
+                        <div class="input-daterange input-group">
+                            <input type="text" class="input-sm form-control" name="start" value="" id="start">
+                            <span class="input-group-addon">到</span>
+                            <input type="text" class="input-sm form-control" name="end" value="" id="end">
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <button class="btn btn-primary" type="button" style="margin-top:5px" id="search"><strong>搜
+                            索</strong>
+                        </button>
+                    </div>
+                </div>
+            </form>
+            <!--搜索框结束-->
+
+            <div class="example-wrap">
+                <div class="example">
+                    <table id="cusTable">
+                        <thead>
+                        <th data-field="id">订单ID</th>
+                        <th data-field="order_no">订单编号</th>
+                        <th data-field="memberid">会员账号</th>
+                        <th data-field="membername">会员名称</th>
+                        <th data-field="goods_id">商品ID</th>
+                        <th data-field="goods_name">商品名称</th>
+                        <th data-field="goods_img">商品图片</th>
+                        <th data-field="products_id">货品ID</th>
+                        <th data-field="products_img">货品图片</th>
+                        <th data-field="spec_array">货品规格</th>
+                        <th data-field="pay_type">账户类型</th>
+                        <th data-field="status">订单状态</th>
+                        <th data-field="pay_status">支付状态</th>
+                        <th data-field="distribution_status">发货状态</th>
+                        <th data-field="accept_name">收人姓名</th>
+                        <th data-field="address">收货地址</th>
+                        <th data-field="address_info">收货地址详情</th>
+                        <th data-field="mobile">联系电话</th>
+                        <th data-field="payable_amount">应付商品金额</th>
+                        <th data-field="real_amount">实付商品金额</th>
+                        <th data-field="payable_freight">总运费金额</th>
+                        <th data-field="real_freight">实付运费金额</th>
+                        <th data-field="pay_time">付款时间</th>
+                        <th data-field="send_time">发货时间</th>
+                        <th data-field="create_time">下单时间</th>
+                        <th data-field="completion_time">订单完成时间</th>
+                        <th data-field="order_amount">订单总金额</th>
+                        <th data-field="accept_time">用户收货时间</th>
+                        <th data-field="sfdate_begin">锁仓释放时间</th>
+                        <th data-field="shouyi_yuqi_num">锁仓释放总数</th>
+                        <th data-field="shouyi_yuqi_keyong">锁仓释放可用</th>
+                        <th data-field="shouyi_yuqi_shifang">锁仓释放数量</th>
+                        <th data-field="shouyi_yuqi_beinum">锁仓赠送倍数</th>
+                        <th data-field="shouyi_yuqi_daynum">锁仓相隔天数释放</th>
+                        <th data-field="order_num">订单数量</th>
+                        <th data-field="goods_sell_price">商品销售价</th>
+                        <th data-field="products_sell_price">货品销售价</th>
+                        <th data-field="memo">订单备注</th>
+                        <th data-field="goods_market_price">商品市场价</th>
+                        <th data-field="products_market_price">货品市场价</th>
+                        <th data-field="express_name">快递名称</th>
+                        <th data-field="express_code">快递单号</th>
+                        <th data-field="qu_xiao_time">取消订单时间</th>
+                        <th data-field="operate">操作</th>
+                        </thead>
+                    </table>
+                </div>
+            </div>
+            <!-- End Example Pagination -->
+        </div>
+    </div>
+</div>
+<!-- End Panel Other -->
+</div>
+<script src="__JS__/jquery.min.js?v=2.1.4"></script>
+<script src="__JS__/bootstrap.min.js?v=3.3.6"></script>
+<script src="__JS__/content.min.js?v=1.0.0"></script>
+<script src="__JS__/plugins/bootstrap-table/bootstrap-table.min.js"></script>
+<script src="__JS__/plugins/bootstrap-table/bootstrap-table-mobile.min.js"></script>
+<script src="__JS__/plugins/bootstrap-table/locale/bootstrap-table-zh-CN.min.js"></script>
+<script src="__JS__/plugins/layer/laydate/laydate.js"></script>
+<script src="__JS__/plugins/layer/layer.min.js"></script>
+<script type="text/javascript">
+    function initTable() {
+        //先销毁表格
+        $('#cusTable').bootstrapTable('destroy');
+        //初始化表格,动态从服务器加载数据
+        $("#cusTable").bootstrapTable({
+            method: "get",  //使用get请求到服务器获取数据
+            url: "{:url('mall/orderIndex')}", //获取数据的地址
+            striped: true,  //表格显示条纹
+            pagination: true, //启动分页
+            pageSize: 10,  //每页显示的记录数
+            pageNumber: 1, //当前第几页
+            pageList: [5, 10, 15, 20, 25],  //记录数可选列表
+            sidePagination: "server", //表示服务端请求
+            paginationFirstText: "首页",
+            paginationPreText: "上一页",
+            paginationNextText: "下一页",
+            paginationLastText: "尾页",
+            queryParamsType: "undefined",
+            queryParams: function queryParams(params) {   //设置查询参数
+                var param = {
+                    pageNumber: params.pageNumber,
+                    pageSize: params.pageSize,
+                    order_no: $('#order_no').val(),
+                    goods_name: $('#goods_name').val(),
+                    member_id: $('#member_id').val(),
+                    order_status: $('#order_status').val(),
+                    pay_status: $('#pay_status').val(),
+                    distribution_status: $('#distribution_status').val(),
+                    start: $('#start').val(),
+                    end: $('#end').val()
+                };
+                return param;
+            },
+            onLoadSuccess: function (res) {  //加载成功时执行
+                if (111 == res.code) {
+                    window.location.reload();
+                }
+                layer.msg("加载成功", {time: 1000});
+            },
+            onLoadError: function () {  //加载失败时执行
+                layer.msg("加载数据失败");
+            }
+        });
+    }
+
+    $(document).ready(function () {
+        //调用函数，初始化表格
+        initTable();
+        laydate.render({elem: '#start', type: 'date',  max: '2099-12-31'});
+        laydate.render({elem: '#end', type: 'date',  max: '2099-12-31'});
+
+        //当点击查询按钮的时候执行
+        $("#search").bind("click", initTable);
+
+        $(document).on("click", "#export", function () {
+            var order_no, goods_name, member_id, order_status, pay_status, distribution_status,start,end;
+            order_no = $('#order_no').val();
+            goods_name = $('#goods_name').val();
+            member_id = $('#member_id').val();
+            order_status = $('#order_status').val();
+            pay_status = $('#pay_status').val();
+            distribution_status = $('#distribution_status').val();
+            start = $('#start').val();
+            end = $('#end').val();
+            window.location.href = '{:url("mall/orderexport")}?order_no=' + order_no + '&goods_name=' + goods_name + '&member_id=' + member_id + '&order_status=' + order_status + '&pay_status=' + pay_status + '&distribution_status=' + distribution_status + '&start=' + start + '&end=' + end;
+        });
+    });
+
+    function specDel(id) {
+        layer.confirm('确认删除此商品规格，并且删除后无法恢复?', {icon: 3, title: '提示'}, function (index) {
+            //do something
+            $.getJSON("{:url('mall/specDel')}", {'spec_id': id}, function (res) {
+                if (1 == res.code) {
+                    layer.alert(res.msg, {title: '友情提示', icon: 1, closeBtn: 0}, function () {
+                        initTable();
+                    });
+                } else if (111 == res.code) {
+                    window.location.reload();
+                } else {
+                    layer.alert(res.msg, {title: '友情提示', icon: 2});
+                }
+            });
+
+            layer.close(index);
+        })
+
+    }
+</script>
+</body>
+</html>

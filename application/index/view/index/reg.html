@@ -1,0 +1,168 @@
+<!doctype html>
+<html>
+
+	<head>
+		<meta charset="UTF-8">
+		<title></title>
+		<meta name="viewport" content="width=device-width,initial-scale=1,minimum-scale=1,maximum-scale=1,user-scalable=no" />
+		<meta name="apple-mobile-web-app-capable" content="yes">
+		<meta name="apple-mobile-web-app-status-bar-style" content="black">
+		<link rel="stylesheet" href="__CSS__/mui.min.css" />
+		<link rel="stylesheet" href="__CSS__/public.css" />
+		<link rel="stylesheet" href="__CSS__/s_form.css" />
+		<link rel="stylesheet" href="__FONT__/iconfont.css" />
+		<style>
+			.mui-input-group .mui-input-row {
+				border-bottom: 0;
+			}
+			
+			.mui-title {
+				text-align: left;
+			}
+		</style>
+	</head>
+
+	<body class="formbg">
+		<div id="app" v-cloak>
+			<header class="mui-bar mui-bar-nav" style="background: #22252e;">
+				<!--<a class="mui-action-back mui-icon iconfont icon-zuo mui-pull-left"></a>-->
+				<h1 class="mui-title" style="text-align: center;">注册</h1>
+
+			</header>
+			<div class="mui-content" style="position: relative;">
+				<canvas width="100%" height="200" style="position: absolute;top:0px;left:0px"></canvas>
+				<div class="logodiv">
+					<img src="__IMG__/loginlogo.png" class="mt20" />
+				</div>
+				<form class="mui-input-group reg form">
+					<div class="mui-input-row">
+						<label><i class="iconfont icon-wode" style="font-size: 16px;"></i></label>
+						<input type="text" class="mui-input-clear" placeholder="节点账号：6-10位英文加数字" id="memberid" v-model="input_account">
+					</div>
+					<div class="mui-input-row">
+						<label><i class="iconfont icon-paper-airplane"></i></label>
+						<input type="text" placeholder="输入分享人节点账号" readonly="readonly" v-model="share_count">
+					</div>
+
+					<div class="mui-input-row">
+						<label><i class="iconfont icon-yuechi"></i></label>
+						<input type="password" v-model="origin_password" class="mui-input-password" placeholder="输入登录密码:8-10位数字加英文" id="pwd"><span class="mui-icon mui-icon-eye"></span>
+					</div>
+					<div class="mui-input-row" style="width: 56%;">
+						<label><i class="iconfont icon-code"></i></label>
+						<input id='img_code' type="text" placeholder="请输入图形验证码" v-model="verification" style="width: 76%;">
+						<span class="right-code">
+                        <img :src="img_src" id="codeimg" @click="getCode"/>
+                    </span>
+					</div>
+					<div class="submit mb10 bradius5" id="reg_ok">确认</div>
+					<!--<div class="formfooter fs14" id="login">
+                        已有账号？<span style="color: #3d8bff;">立即登录</span>
+                    </div>-->
+				</form>
+			</div> 
+		</div>
+
+	</body>
+	<script type="text/javascript" src="__JS__/mui.min.js"></script>
+	<script type="text/javascript" src="__JS__/vue.min.js"></script>
+	<script type="text/javascript" src="__JS__/common.js"></script>
+	<script type="text/javascript" src="__JS__/jquery.min.js"></script>
+	<script type="text/javascript" src="__JS__/lodash.min.js"></script>
+	<script type="text/javascript" src="__JS__/index.js"></script>
+	<script type="text/javascript">
+		var vm = new Vue({
+			el: '#app',
+			data: {
+				input_account: '',
+				share_count: '',
+				origin_password: '',
+				verification: '',
+				img_src: '',
+
+			},
+			watch: {
+				verification: function() {
+					if(this.verification.length > 4) {
+						this.verification = this.verification.substr(0, 4);
+						return false;
+					}
+					this.verification = this.verification.replace(/\D/g, '')
+				},
+			},
+			methods: {
+				//              	点击刷新验证码
+				getCode: function() {
+					getcode(this)
+				},
+			},
+			mounted() {
+				getcode(this)
+
+			}
+		});
+
+		mui.init({
+			swipeBack: true //启用右滑关闭功能
+		});
+		var url = location.search.split("=")[1]
+		var url2 = url.split("&")[0]
+		vm.share_count = url2
+
+		//验证信息
+		function verInfo() {
+			if(vm.input_account == '') {
+				mui.toast('节点账号不能为空')
+				return false
+			} else if(vm.share_count == '') {
+				mui.toast('分享人节点账号不能为空')
+				return false
+			} else if(vm.origin_password == '') {
+				mui.toast('登录密码不能为空')
+				return false
+			} else if(vm.verification == '') {
+				mui.toast('验证码不能为空')
+				return false
+			} else {
+				return true;
+			}
+		}
+		var isTrue = true;
+		document.getElementById('reg_ok').addEventListener('tap', function() {
+			if(!verInfo()) return verInfo();
+			let info = {
+				"referee_memberid": vm.share_count, //推荐人账号
+				"r_memberid": vm.input_account, //注册会员账号
+				"password": vm.origin_password, //登录密码
+				"captcha": vm.verification //图形验证码
+			}
+			isTrue = false;
+			getData('/api/login/register', info, function(res) {
+				if(res.code == 1) {
+					setTimeout(() => {
+						window.location.href = "https://msadmin.msth2019.com/index/index/download"
+					}, 2000)
+					mui.toast(res.msg)
+					setTimeout(() => {
+						mui.back();
+						vm.input_account = '';
+						vm.share_count = '';
+						vm.origin_password = '';
+						vm.verification = '';
+					}, 2000)
+				} else if(res.code == -1) {
+					getcode(this)
+					mui.toast(res.msg)
+				} else if(res.code == -500) {
+					mui.toast(res.msg)
+				} else {
+					//							nwaiting.close();
+					getcode(this)
+					dataCode(res)
+				}
+
+			})
+		})
+	</script>
+
+</html>

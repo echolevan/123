@@ -1,0 +1,99 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>系统参数</title>
+    <link rel="shortcut icon" href="favicon.ico">
+    <link href="__CSS__/bootstrap.min.css?v=3.3.6" rel="stylesheet">
+    <link href="__CSS__/font-awesome.min.css?v=4.4.0" rel="stylesheet">
+    <link href="__CSS__/plugins/bootstrap-table/bootstrap-table.min.css" rel="stylesheet">
+    <link href="__CSS__/animate.min.css" rel="stylesheet">
+    <link href="__CSS__/style.min.css?v=4.1.0" rel="stylesheet">
+    <link href="__CSS__/plugins/sweetalert/sweetalert.css" rel="stylesheet">
+</head>
+<body class="gray-bg">
+<div class="wrapper wrapper-content animated fadeInRight">
+    <!-- Panel Other -->
+    <div class="ibox float-e-margins">
+        <div class="ibox float-e-margins">
+            <div class="ibox-title">
+                <h5>系统参数列表</h5>
+            </div>
+            <div class="ibox-content">
+
+                <table class="table table-bordered">
+                    <thead>
+                    <tr>
+                        <th>#</th>
+                        <th>名称</th>
+                        <th>值</th>
+                        <th>操作</th>
+                    </tr>
+                    </thead>
+                    <tbody>
+                    {if !empty($list)}
+                    {foreach name="list" item="vo"}
+                    <tr>
+                        <td>{$vo.id}</td>
+                        <td>{$vo.s_memo}</td>
+                        <td>{$vo.s_value}</td>
+                        <td>
+                            <a href="javascript:edit('{$vo.s_key}','{$vo.s_value}')">
+                                <button type="button" class="btn btn-primary btn-sm"><i class="fa fa-edit"></i>修改
+                                </button>
+                            </a>
+                        </td>
+                    </tr>
+                    {/foreach}
+                    {/if}
+                    </tbody>
+                </table>
+
+            </div>
+        </div>
+    </div>
+</div>
+<!-- End Panel Other -->
+</div>
+<script src="__JS__/jquery.min.js?v=2.1.4"></script>
+<script src="__JS__/bootstrap.min.js?v=3.3.6"></script>
+<script src="__JS__/content.min.js?v=1.0.0"></script>
+<script src="__JS__/plugins/bootstrap-table/bootstrap-table.min.js"></script>
+<script src="__JS__/plugins/bootstrap-table/bootstrap-table-mobile.min.js"></script>
+<script src="__JS__/plugins/bootstrap-table/locale/bootstrap-table-zh-CN.min.js"></script>
+<script src="__JS__/plugins/suggest/bootstrap-suggest.min.js"></script>
+<script src="__JS__/plugins/layer/laydate/laydate.js"></script>
+<script src="__JS__/plugins/sweetalert/sweetalert.min.js"></script>
+<script src="__JS__/plugins/layer/layer.min.js"></script>
+<script type="text/javascript">
+    function edit(id, value) {
+        layer.open({
+            title: '修改参数',
+            content: '<form><div><input type="text" id="sys_v" class="form-control" placeholder="请输入要修改成的值" value="' + value + '"></div></form>',
+            shadeClose: true,
+            btn: '确定',
+            yes: function (index, layero) {
+                var v = $('#sys_v').val();
+                if (v.length <= 0) {
+                    layer.alert('请输入修改的值', {title: '友情提示', icon: 2});
+                    return false;
+                }
+                $.getJSON("{:url('data/sys')}", {
+                    'id': id,
+                    'v': v,
+                }, function (res) {
+                    if (1 == res.code) {
+                        window.location.reload();
+                        layer.alert(res.msg, {title: '友情提示', icon: 1});
+                    }
+                    else {
+                        layer.alert(res.msg, {title: '友情提示', icon: 2});
+                    }
+                });
+            }
+        })
+    }
+</script>
+</body>
+</html>

@@ -1,0 +1,6 @@
+@charset "utf-8";
+.main{text-align: center;}
+.main .logo{width:120px;display:block;margin: 50px auto;}
+.main p{padding: 5px 0;color:#969696}
+.main a{display:none;width:50%;margin: 0 auto;margin-top: 15px;background: #eead45;color:#fff;padding: 8px 0;border-radius: 5px;}
+#weixinTip{padding:15px;background: #343434;color:#838383;font-size: 12px;line-height: 21px;}

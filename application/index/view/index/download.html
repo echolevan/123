@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html mip>
+
+    <head>
+        <meta charset="utf-8">
+        <meta name="viewport" content="width=device-width,minimum-scale=1,maximum-scale=1,initial-scale=1,user-scalable=no">
+        <meta http-equiv="X-UA-Compatible" content="ie=edge">
+        <title>MSTH下载</title>
+        <meta name="keywords" content="MSTH下载">
+        <meta name="description" content="MSTH下载">
+        <link rel="shortcut icon" href="favicon.ico" />
+        <link rel="stylesheet" type="text/css" href="/static/index/css/master.min.css">
+        <link rel="stylesheet" type="text/css" href="/static/index/css/app.css">
+        <style media="screen">
+            body {
+                padding-top: 0;
+            }
+        </style>
+        <script type="text/javascript">
+            /* 调节rem根值大小 */
+            var resizeREM = (function() {
+                var body_h = document.body.clientHeight;
+                var body_w = document.body.clientWidth;
+                if(body_w > 750) {
+                    document.querySelector("html").style["font-size"] = 17.1 + "px";
+                } else {
+                    document.querySelector("html").style["font-size"] = ((body_w / 2400) < 1 ? (body_w / 2400) * 100 : 100) + "px";
+                }
+            });
+            window.addEventListener('DOMContentLoaded', function() {
+                resizeREM();
+            });
+        </script>
+
+    </head>
+
+    <body>
+        <div id="app">
+            <component-app-download></component-app-download>
+        </div>
+        <script>
+            var JINSECONFIG = {
+                'wwwDomain': '//app.worldunitedcoins.com',
+                'staticDomain': '//app.worldunitedcoins.com',
+                'apiDomain': '//app.worldunitedcoins.com',
+                'mDomain': '//app.worldunitedcoins.com',
+                'staticVersion': '1556'
+            }
+
+        </script>
+        <script type="text/javascript">
+            define = null;
+            require = null;
+        </script>
+
+        <script src="/static/index/js/manifest.js"></script>
+        <script src="/static/index/js/vendor.js"></script>
+        <script src="/static/index/js/app.js"></script>
+    </body>
+
+</html>

@@ -1,0 +1,130 @@
+/*reset*/
+html{max-width: 640px;margin:0 auto; width: 100%; height: 100%;}
+article,aside,dialog,footer,header,section,footer,nav,figure,menu{display:block}
+body, div, dl, dt, dd, ul, ol, li, h1, h2, h3, h4, h5, h6, pre, code, form, fieldset, figure, section, legend, textarea, p, blockquote, th, td, input, select, textarea, button { margin: 0; padding: 0 }
+body{font:12px "苹方",Arial,Helvetica,sans-serif;background-color: #fff;max-width: 640px;margin: 0 auto;}
+h1,h2,h3,h4,h5,h6{font-size:100%;font-weight: normal;}
+table{border-collapse:collapse;border-spacing:0}
+ul,ol,dd,dt,dl{list-style-type:none;}
+li{
+	list-style: none;
+}
+a{text-decoration: none;-webkit-touch-callout: none;-webkit-user-select: none;}
+a,input,select{-webkit-tap-highlight-color: transparent;-webkit-appearance: none;-moz-appearance: none;-webkit-border-radius: 0;}
+
+input,img{border:none;padding:0;font-size:14px;}
+
+i,em{font-style:normal;}
+:focus{outline: none}
+.fs12{font-size: 12px!important;}
+.fs14{font-size: 14px!important;}
+.fs15{font-size: 15px!important;}
+.fs16{font-size: 16px!important;}
+.fs17{font-size: 17px!important;}
+.fs18{font-size: 18px!important;}
+.fs19{font-size: 19px!important;}
+.fs20{font-size: 20px!important;}
+.fs22{font-size: 22px!important;}
+.fs24{font-size: 24px!important;}
+.fs26{font-size: 26px!important;}
+.fs28{font-size: 28px!important;}
+.fs30{font-size: 30px!important;}
+.fs36{font-size: 36px!important;}
+.fw600{font-weight: 600!important;}
+.ml5{margin-left: 5px!important;}
+.ml10{margin-left: 10px!important;}
+.ml15{margin-left: 15px!important;}
+.mt1{margin-top: 1px!important;}
+.mt6{margin-top: 6px!important;}
+.mt15{margin-top: 15px!important;}
+.mt20{margin-top: 20px!important;}
+.mt25{margin-top: 25px!important;}
+.mt30{margin-top: 30px!important;}
+.mt35{margin-top: 35px!important;}
+.mcenter{margin:0 25px}
+.pd15{padding: 0 15px!important}
+.pt15{padding-top:15px!important}
+.pt20{padding-top:20px!important}
+.pdl15{padding-left:15px!important}
+.pdl25{padding-left:25px!important}
+.colorwhite{color: #fff!important;}
+.colorwhite8{color:rgba(255,255,255,.8)}
+.color2b2b2b{color:#2b2b2b}
+.colorred{color:#ff2150}
+.wh20{width:20px!important;height: 24px!important;}
+.bg0b153a{background: #232e40;}
+.hide{display: none;}
+.wt80{width:90%!important;margin: 0 auto!important;display:block; margin-top: 50px!important;padding: 9px 0;}
+* { touch-action: pan-y; }
+/*卡片背景*/
+.bg354171{background: #354171!important;}
+.lineh{line-height: 45px!important;}
+p{color:rgba(255,255,255,.5)}
+.ofhidden{overflow:hidden;}
+.alignr{text-align:right!important;}
+.alignc{text-align:center!important;}
+.alignl{text-align:left!important;}
+.text_alignr{text-align: right;color:#fff}
+.bradius5{border-radius:5px!important;}
+/*卡片背景*/
+.bg354171{background: #354171!important;}
+.lineh{line-height: 45px;}
+p{color:rgba(255,255,255,.5)}
+.ofhidden{overflow:hidden;}
+.alignr{text-align:right!important;}
+.alignc{text-align:center!important;}
+.alignl{text-align:left!important;}
+.text_alignr{text-align: right;color:#fff}
+
+.border10{border-radius: 10px!important;}
+/*iphone6*/
+.hide{display: none;}
+
+/*原子类*/
+.clear { clear: both; }
+.clear:after { display: block; clear: both; visibility: hidden; height: 0; overflow: hidden; content: "."; }
+.fl { float: left; }
+.fr { float: right; }
+.mb10{margin-bottom: 10px;}
+.mt10{margin-top: 10px;}
+/*placeholder css*/
+::-moz-placeholder{ font-family: "Microsoft YaHei"}
+::-webkit-input-placeholder{ font-family: "Microsoft YaHei"}
+:-ms-input-placeholder{ font-family: "Microsoft YaHei"}
+
+/*初始化底部导航栏*/
+.mui-bar-tab .mui-tab-item .mui-icon{
+	width: 30px;
+	height: 30px;
+}
+.mui-bar-tab{
+	background: #0d183d;
+}
+.mui-bar-tab .mui-tab-item{
+	color: rgba(255,255,255,0.5);
+}
+.mui-bar-tab .mui-tab-item.mui-active{
+	color: #fff;
+}
+.mui-bar .mui-icon{
+	font-size: 30px;
+}
+/*header去掉样式*/
+.mui-bar-nav{
+	background: transparent;
+	box-shadow: 0 0;
+}
+.mui-content{
+	background: none;
+}
+.mui-title{
+	color: #fff;
+}
+.mui-bar a{
+	color: #fff;
+}
+.tit {
+	word-wrap: break-word;
+}
+/*锁定模板标签*/
+[v-cloak] { display: none }

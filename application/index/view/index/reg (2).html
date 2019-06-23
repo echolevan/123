@@ -1,0 +1,245 @@
+<!doctype html>
+<html>
+
+	<head>
+		<meta charset="UTF-8">
+		<title></title>
+		<meta name="viewport" content="width=device-width,initial-scale=1,minimum-scale=1,maximum-scale=1,user-scalable=no" />
+		<meta name="apple-mobile-web-app-capable" content="yes">
+		<meta name="apple-mobile-web-app-status-bar-style" content="black">
+		<link rel="stylesheet" href="__CSS__/mui.min.css" />
+		<link rel="stylesheet" href="__CSS__/public.css" />
+		<link rel="stylesheet" href="__CSS__/s_form.css" />
+		<link rel="stylesheet" href="__CSS__/iconfont.css" />
+		<link rel="stylesheet" href="__CSS__/x_common.css" />
+	</head>
+
+	<body class="formbg">
+		<div id="app">
+			<header class="mui-bar mui-bar-nav">
+				<a class="mui-action-back mui-icon iconfont icon-left mui-pull-left"></a>
+				<h1 class="mui-title">注册</h1>
+			</header>
+			<div class="mui-content">
+				<form class="mui-input-group reg">
+					<div class="mui-input-row">
+						<input type="text" disabled="disabled" placeholder="输入分享通证节点账号" id="referee" v-model="share_count" />
+						<!--{{share_count}}-->
+						<!--<span class="right-tips">
+                        <span style="float:right" id="verify">验证</span>
+                    </span>
+                    <p class="verror">无此推荐人</p>
+                    <p class="correct"><i class="mui-icon mui-icon-checkmarkempty"></i></p>-->
+					</div>
+					<!--<div class="mui-input-row">
+                    <input type="text" class="mui-input-clear" placeholder="用户名（必须为中文）" id="nickname">
+                </div>-->
+					<div class="mui-input-row">
+						<input type="text" class="mui-input-clear" placeholder="输入通证节点账号：6-10位数字加英文" id="memberid" v-model="input_account">
+					</div>
+					<div class="mui-input-row">
+						<input type="text" class="mui-input-clear" placeholder="输入节点标签" v-model="node_sign">
+					</div>
+					<div class="mui-input-row">
+						<input type="password" v-model="origin_password" class="mui-input-password" placeholder="输入登录密码：8-10位数字加英文" id="pwd"><span class="mui-icon mui-icon-eye"></span>
+					</div>
+					<div class="mui-input-row">
+						<input type="password" v-model="confirm_pwd" class="mui-input-password" placeholder="确认登录密码" id="rpwd"><span class="mui-icon mui-icon-eye"></span>
+					</div>
+					<div class="mui-input-row">
+						<input type="text" class="mui-input" placeholder="输入邮箱" v-model="mail">
+					</div>
+					<div class="mui-input-row">
+						<input type="text" class="mui-input-clear" placeholder="请输入手机号" id="mobile" v-model="mobile">
+					</div>
+					<div class="mui-input-row" style="width: 52%;">
+						<input id='img_code' type="text" placeholder="请输入图形验证码" v-model="verification">
+						<span class="right-code">
+                        <img :src="img_src" id="codeimg" @click="getCode"/>
+                    </span>
+					</div>
+					<div class="mui-input-row">
+						<input type="text" placeholder="请输入验证码" id="moblie_code" v-model="moblie_code">
+						<div class="right-tips"><span :class="dis_e==true?'gray':''" id="get_code" @click="send_email" :disabled="dis_e">{{send_code_tit}}</span> | <span :class="dis_m==true?'gray':''" :disabled="dis_m" @click="send_phone" id="get_ecode">{{send_code_phone}}</span></div>
+					</div>
+					<div class="submit ht40 wt80 mb10" id="reg_ok">确认</div>
+					<div class="mui-input-row mui-radio mui-left bgtransp mt0">
+						<input name="radio" type="radio" :checked="is_check" @click="radio_check">
+						<p>我已阅读同意
+							<a id="user_xy" href="notice.html"> 《用户协议》</a>
+						</p>
+					</div>
+				</form>
+			</div>
+		</div>
+	</body>
+	<script type="text/javascript" src="__JS__/mui.min.js"></script>
+	<script type="text/javascript" src="__JS__/vue.min.js"></script>
+	<script type="text/javascript" src="__JS__/common.js"></script>
+	<script type="text/javascript" src="__JS__/jquery.min.js">
+	</script>
+	<script type="text/javascript">
+
+		var vm = new Vue({
+			el: '#app',
+			data: {
+				share_count: '',
+				input_account: '',
+				node_sign: '',
+				origin_password: '',
+				confirm_pwd: '',
+				mail: "",
+				mobile: '',
+				verification: '',
+				img_src: '',
+				moblie_code: '',
+				dis_e: false,
+				dis_m: false,
+				send_code_tit: '邮箱',
+				send_code_phone: '手机',
+				checktype: '',
+				is_check: false
+
+			},
+			methods: {
+				//              	点击刷新验证码
+				getCode: function() {
+					getcode(this)
+				},
+				getval: function() {
+					if(vm.share_count == '') {
+						mui.toast('分享通证节点账号不能为空')
+						return false
+					} else if(vm.input_account == '') {
+						mui.toast('注册会员账号不能为空')
+						return false
+					} else if(vm.node_sign == '') {
+						mui.toast('注册会员昵称')
+						return false
+					} else if(vm.origin_password == '') {
+						mui.toast('登录密码不能为空')
+						return false
+					} else if(vm.confirm_pwd == '') {
+						mui.toast('确认登录密码不能为空')
+						return false
+					} else if(vm.verification == '') {
+						mui.toast('验证码不能为空')
+						return false
+					} else if(vm.verification == '') {
+						mui.toast('验证类型不能为空')
+						return false
+					}
+				},
+
+				radio_check: function() {
+					this.is_check = true
+				},
+
+				//              点击邮箱发送验证码
+				send_email: function() {
+
+					this.send_email_phone(1)
+				},
+				//              点击手机号发送验证码
+				send_phone: function() {
+					this.send_email_phone(2)
+				},
+				send_email_phone: function(num) {
+					//              	mui.toast()
+					let data = {}
+					if(num == 1) {
+						vm.checktype = "email"
+						data = {
+
+							"check_type": "email", //发送验证码类型 mobile:手机验证码 email:邮箱验证码
+							"r_mobile": '', //发送验证码手机号 若是邮箱验证码可传空
+							"r_email": this.mail, //发送验证码邮箱 若是手机号验证码可传空
+							"captcha": this.verification //图形验证码
+						}
+					} else {
+						vm.checktype = "mobile"
+						data = {
+
+							"check_type": "mobile", //发送验证码类型 mobile:手机验证码 email:邮箱验证码
+							"r_mobile": this.mobile, //发送验证码手机号 若是邮箱验证码可传空
+							"r_email": '', //发送验证码邮箱 若是手机号验证码可传空
+							"captcha": this.verification //图形验证码
+						}
+					}
+
+					getData('/api/login/sendSms', data, function(res) {
+						if(res.code == 1) {
+							if(num == 1) {
+								vm.dis_e = true
+							} else {
+								vm.dis_m = true
+							}
+							//              			change=true
+							mui.toast(res.msg)
+							timer(60, vm, num)
+						} else if(res.code == -1) {
+							//              			getcode(this)
+							mui.toast(res.msg)
+						} else {
+							mui.toast(res.msg)
+						}
+					})
+
+				}
+			},
+			mounted() {
+				getcode(this)
+
+			}
+		});
+		
+		var url=location.search.split("=")[1]
+        var url2=url.split("&")[0]
+        vm.share_count=url2
+
+		mui.init({
+			swipeBack: true //启用右滑关闭功能
+		});
+
+		document.getElementById('reg_ok').addEventListener('tap', function() {
+			console.log(vm.is_check)
+			if(vm.is_check == false) {
+				mui.toast('请信任注册协议')
+				return false
+			}
+			//				alert(1)
+			//					var nwaiting = plus.nativeUI.showWaiting();
+			let info = {
+				"referee_memberid": vm.share_count, //推荐人账号
+				"r_memberid": vm.input_account, //注册会员账号
+				"membername": vm.node_sign, //注册会员昵称
+				"password": vm.origin_password, //登录密码
+				"confirm_password": vm.confirm_pwd, //确认登录密码
+				"r_email": vm.mail, //注册邮箱
+				"r_mobile": vm.mobile, //注册手机号
+				"check_code": vm.moblie_code, //验证码（根据check_type:mobile为手机验证码，check_type:email为邮箱验证码）
+				"check_type": vm.checktype
+			}
+
+			getData('/api/login/register', info, function(res) {
+				if(res.code == 1) {
+					//							nwaiting.close();
+					mui.toast(res.msg)
+					setTimeout(() => {
+						window.location.href="https://app.worldunitedcoins.com/index/index/download.html"
+					}, 2000)
+				} else if(res.code == -1) {
+					//							nwaiting.close();
+					getcode(this)
+					mui.toast(res.msg)
+				} else {
+					//							nwaiting.close();
+					getcode(this)
+					dataCode(res)
+				}
+
+			})
+		})
+	</script>
+
+</html>

@@ -1,0 +1,104 @@
+<!DOCTYPE html>
+<html style="width: 100%; height: 100%">
+
+	<head>
+		<meta charset="UTF-8" />
+		<meta name="viewport" content="maximum-scale=1.0,minimum-scale=1.0,user-scalable=0,width=device-width,initial-scale=1.0 viewport-fit=cover" />
+		<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1" />
+		<meta name="renderer" content="webkit">
+		<meta http-equiv="Cache-Control" content="no-siteapp" />
+		<meta name="screen-orientation" content="portrait">
+		<meta name="apple-mobile-web-app-capable" content="yes">
+		<meta name="apple-mobile-web-app-status-bar-style" content="black" />
+		<meta name="x5-orientation" content="portrait">
+		<meta content="telephone=no" name="format-detection">
+		<!--        <link rel="shortcut icon" type="image/x-icon" href="../china_ufo/favicon.ico" />-->
+		<title>MSTH下载</title>
+		<meta http-equiv="X-UA-Compatible" content="ie=edge" />
+		<link href="/static/index/css/base.css" rel="stylesheet" type="text/css" />
+		<link href="/static/index/css/down.css" rel="stylesheet" type="text/css" />
+	</head>
+
+	<body style="background: url(/static/index/images/bg.png) no-repeat;
+    background-size: 100% 100%;
+    width: 100%;
+    height: 100%;">
+		<div class="main">
+			<!--<div id="weixinTip"><p>点击右上角按钮，然后在弹出的菜单中，点击在<img src="Public/Home/img/arrow.png" height="30" style="margin-top: -10px;"/> <br>Safari中打开，即可安装</p></div>-->
+			<img src="/static/index/images/downlogo.png" class="logo" />
+			<div style="margin-bottom: 20px;"><img src="/static/index/images/downimg1.png" height="35px" /></div>
+			<div class='ios_version'>
+				<p>版本：1.0 大小： 5.6 MB</p>
+				<p>更新时间： 2019-03-01</p>
+			</div>
+			<div class='android_version'>
+				<p>版本：1.0 大小： 5.6 MB</p>
+				<p>更新时间： 2019-03-01</p>
+			</div>
+			<a href="javascript:;" id="ios">IOS下载</a>
+			<a href="https://shiliantz.oss-cn-zhangjiakou.aliyuncs.com/shilian.apk" id="android">安卓下载</a>
+		</div>
+	</body>
+	<script src="/static/index/js/jquery-1.11.1.min.js"></script>
+	<script>
+		var u = navigator.userAgent;
+		if(u.indexOf('Android') > -1 || u.indexOf('Linux') > -1) { //安卓手机
+			//          alert("安卓手机");
+			$('#ios').css('display', 'none');
+			$('#android').css('display', 'block');
+			$('.ios_version').hide();
+			$('.android_version').show();
+
+		} else if(u.indexOf('iPhone') > -1) { //苹果手机
+			//          alert("苹果手机");
+			$('#ios').css('display', 'block');
+			$('#android').css('display', 'none');
+			$('.ios_version').show();
+			$('.android_version').hide();
+		}
+		//      var ua = navigator.userAgent.toLowerCase();
+		//      if (/iphone|ipad|ipod/.test(ua)) {
+		//              $('#ios').show();
+		//      } else if (/android/.test(ua)) {
+		//
+		//      }
+
+		//判断是否在微信中打开浏览器
+		function is_weixin() {
+			var ua = navigator.userAgent.toLowerCase();
+			if(ua.match(/MicroMessenger/i) == "micromessenger") {
+				return true;
+			} else {
+				return false;
+			}
+		}
+		var isWeixin = is_weixin();
+		var weixinTip = $('<div id="weixinTip"><p>点击右上角按钮，然后在弹出的菜单中，点击在<img src="/static/index/images/arrow.png" height="30" style="margin-top: -10px;"/>Safari中打开，即可安装</p></div>');
+		var weixinTipsA = $('<div id="weixinTip"><p>点击右上角按钮，然后在弹出的菜单中，点击在<img src="/static/index/images/arrow.png" height="30" style="margin-top: -10px;"/>浏览器中打开，即可安装</p></div>');
+
+		if(isWeixin) {
+			if(u.indexOf('Android') > -1 || u.indexOf('Linux') > -1) { //安卓手机
+				$(".main").before(weixinTipsA);
+				$('.main a').click(function() {
+					alert('点击右上角按钮，然后在弹出的菜单中，点击在浏览器中打开，即可安装');
+					return false
+				})
+
+			} else if(u.indexOf('iPhone') > -1) { //苹果手机
+				//          alert("苹果手机");
+				$(".main").before(weixinTip);
+				$('.main a').click(function() {
+					alert('点击右上角按钮，然后在弹出的菜单中，点击在Safari中打开，即可安装');
+					return false
+				})
+			}
+
+		} else {
+			$('#ios').click(function() {
+				//            alert('IOS稍后更新...          ')
+				window.location.href = "itms-services://?action=download-manifest&amp;url=https://shiliantz.oss-cn-zhangjiakou.aliyuncs.com/info.plist"
+			})
+		}
+	</script>
+
+</html>
